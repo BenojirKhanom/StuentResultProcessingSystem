@@ -7,16 +7,15 @@ namespace StudentResultProcessingSystem.Data
         // Primary Key
         [Key]
         public int StudentId { get; set; }
-      
-        [Display(Name = "Department")]
-        [Required(ErrorMessage = "Please select a department.")]
+
+        [Display(Name = "Student Name")]
+        [Required(ErrorMessage = "Student Name is required.")]
+        [StringLength(100)]
         public string StudentName { get; set; }
         public string? Roll { get; set; }
         public string? Email { get; set; }
 
         // Foreign Key
-        [Display(Name = "Department")]
-        [Required(ErrorMessage = "Please select a department.")]
         public int DepartmentId { get; set; }
         public Department? Department { get; set; }
     }

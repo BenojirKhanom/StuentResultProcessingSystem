@@ -44,4 +44,19 @@ namespace StudentResultProcessingSystem.Models
 
         public decimal Marks { get; set; }
     }
+    public class StudentReportViewModel
+    {
+        // Search & Filter
+        public string? FilterType { get; set; }
+
+        public string? FilterValue { get; set; }
+
+        // Department Dropdown
+        public int? DepartmentId { get; set; }
+
+        public IEnumerable<Department>? Departments { get; set; }
+
+        // Result List
+        public IEnumerable<Result>? Results { get; set; } = new List<Result>();
+    }
 }

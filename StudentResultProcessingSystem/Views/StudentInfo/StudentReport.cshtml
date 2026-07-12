@@ -1,0 +1,263 @@
+﻿@model StudentReportViewModel
+
+@{
+    ViewData["Title"] = "Student Report";
+}
+
+<h3>Student Report</h3>
+
+<form asp-action="StudentReport" method="get">
+
+    <div class="row">
+
+        <div class="col-md-4">
+
+            <label>Filter By</label>
+
+            <select id="FilterType"
+                    name="filterType"
+                    class="form-control">
+
+                <option value="">--Select--</option>
+
+                <option value="StudentId">Student ID</option>
+
+                <option value="StudentName">Student Name</option>
+
+                <option value="Department">Department</option>
+
+                <option value="Grade">Grade</option>
+
+                <option value="Status">Pass / Fail</option>
+
+                <option value="OrderByMarks">Order By Total Marks</option>
+
+                <option value="TopStudent">Top Performing Student</option>
+
+            </select>
+
+        </div>
+
+        <div class="col-md-4">
+
+            <label>Value</label>
+
+            <div id="FilterArea">
+
+                <!-- jQuery will load textbox/dropdown here -->
+
+            </div>
+
+        </div>
+
+        <div class="col-md-2 mt-4">
+
+            <button class="btn btn-primary">
+
+                Search
+
+            </button>
+
+        </div>
+
+    </div>
+
+</form>
+
+<hr />
+
+<table class="table table-bordered table-striped" id="tblStudentReport">
+
+    <thead>
+
+        <tr>
+
+            <th>Student ID</th>
+
+            <th>Student Name</th>
+
+            <th>Department</th>
+
+            <th>Total</th>
+
+            <th>Average</th>
+
+            <th>Grade</th>
+
+            <th>Status</th>
+
+        </tr>
+
+    </thead>
+
+    <tbody>
+
+        @foreach (var item in Model.Results)
+        {
+            <tr>
+
+                <td>@item.StudentId</td>
+
+                <td>@item.Student?.StudentName</td>
+
+                <td>@item.Student?.Department?.DepartmentName</td>
+
+                <td>@item.TotalMarks</td>
+
+                <td>@item.AverageMarks</td>
+
+                <td>@item.Grade</td>
+
+                <td>@item.Status</td>
+
+            </tr>
+        }
+
+    </tbody>
+
+</table>
+
+
+@section Scripts
+    {
+    <script>
+
+        $(document).ready(function () {
+
+            // DataTable
+            $('#tblStudentReport').DataTable();
+
+            // Page Load
+            LoadFilter();
+
+            // Filter Change
+            $("#FilterType").change(function () {
+
+                LoadFilter();
+
+            });
+
+        });
+
+
+        function LoadFilter() {
+
+            var filter = $("#FilterType").val();
+
+            var html = "";
+
+            // ===============================
+            // Student ID
+            // ===============================
+
+            if (filter == "StudentId") {
+
+                html += '<input type="text" ';
+                html += 'name="filterValue" ';
+                html += 'class="form-control" ';
+                html += 'placeholder="Enter Student ID"/>';
+
+            }
+
+            // ===============================
+            // Student Name
+            // ===============================
+
+            else if (filter == "StudentName") {
+
+                html += '<input type="text" ';
+                html += 'name="filterValue" ';
+                html += 'class="form-control" ';
+                html += 'placeholder="Enter Student Name"/>';
+
+            }
+
+            // ===============================
+            // Department
+            // ===============================
+
+            else if (filter == "Department") {
+
+                html += '<select name="departmentId" class="form-control">';
+
+                html += '<option value="">Select Department</option>';
+
+        @foreach (var item in Model.Departments)
+        {
+            @:html += '<option value="@item.DepartmentId">@item.DepartmentName</option>';
+        }
+
+                html += '</select>';
+
+            }
+
+            // ===============================
+            // Grade
+            // ===============================
+
+            else if (filter == "Grade") {
+
+                html += '<select name="filterValue" class="form-control">';
+
+                html += '<option value="">Select Grade</option>';
+
+                html += '<option value="A+">A+</option>';
+
+                html += '<option value="A">A</option>';
+
+                html += '<option value="A-">A-</option>';
+
+                html += '<option value="B">B</option>';
+
+                html += '<option value="C">C</option>';
+
+                html += '<option value="F">F</option>';
+
+                html += '</select>';
+
+            }
+
+            // ===============================
+            // Pass / Fail
+            // ===============================
+
+            else if (filter == "Status") {
+
+                html += '<select name="filterValue" class="form-control">';
+
+                html += '<option value="">Select Status</option>';
+
+                html += '<option value="Pass">Pass</option>';
+
+                html += '<option value="Fail">Fail</option>';
+
+                html += '</select>';
+
+            }
+
+            // ===============================
+            // Order By Marks
+            // ===============================
+
+            else if (filter == "OrderByMarks") {
+
+                html = "";
+
+            }
+
+            // ===============================
+            // Top Student
+            // ===============================
+
+            else if (filter == "TopStudent") {
+
+                html = "";
+
+            }
+
+            $("#FilterArea").html(html);
+
+        }
+
+    </script>
+}

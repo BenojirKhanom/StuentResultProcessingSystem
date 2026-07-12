@@ -155,5 +155,131 @@ namespace StudentResultProcessingSystem.Controllers
         }
         #endregion
 
+        #region part 7+8
+        [HttpGet]
+        public async Task<IActionResult> StudentReport(string? filterType,string? filterValue,int? departmentId)
+        {
+            StudentReportViewModel vm = new StudentReportViewModel();
+
+            // Department Dropdown
+            vm.Departments = await _studentService.GetDepartments();
+
+            // Result List
+            var data = await _studentService.GetAllResults();
+
+            // Save Selected Value
+            vm.FilterType = filterType;
+            vm.FilterValue = filterValue;
+            vm.DepartmentId = departmentId;
+
+            if (!string.IsNullOrEmpty(filterType))
+            {
+                switch (filterType)
+                {
+                    // ==========================
+                    // Search Student ID
+                    // ==========================
+
+                    case "StudentId":
+
+                        if (!string.IsNullOrEmpty(filterValue))
+                        {
+                            data = data.Where(x =>
+                                x.StudentId.ToString().Contains(filterValue));
+                        }
+
+                        break;
+
+                    // ==========================
+                    // Search Student Name
+                    // ==========================
+
+                    case "StudentName":
+
+                        if (!string.IsNullOrEmpty(filterValue))
+                        {
+                            data = data.Where(x =>
+                                x.Student!.StudentName!
+                                .Contains(filterValue));
+                        }
+
+                        break;
+
+                    // ==========================
+                    // Department Filter
+                    // ==========================
+
+                    case "Department":
+
+                        if (departmentId > 0)
+                        {
+                            data = data.Where(x =>
+                                x.Student!.DepartmentId == departmentId);
+                        }
+
+                        break;
+
+                    // ==========================
+                    // Grade Filter
+                    // Method Syntax
+                    // ==========================
+
+                    case "Grade":
+
+                        if (!string.IsNullOrEmpty(filterValue))
+                        {
+                            data = data.Where(x =>
+                                x.Grade == filterValue);
+                        }
+
+                        break;
+
+                    // ==========================
+                    // Status Filter
+                    // Query Syntax
+                    // ==========================
+
+                    case "Status":
+
+                        if (!string.IsNullOrEmpty(filterValue))
+                        {
+                            data =
+                                from r in data
+                                where r.Status == filterValue
+                                select r;
+                        }
+
+                        break;
+
+                    // ==========================
+                    // Order By Total Marks
+                    // ==========================
+
+                    case "OrderByMarks":
+
+                        data = data.OrderByDescending(x => x.TotalMarks);
+
+                        break;
+
+                    // ==========================
+                    // Top Performing Student
+                    // ==========================
+
+                    case "TopStudent":
+
+                        data = data
+                            .OrderByDescending(x => x.TotalMarks)
+                            .Take(1);
+
+                        break;
+                }
+            }
+
+            vm.Results = data;
+
+            return View(vm);
+        }
+        #endregion
+
     }
 }

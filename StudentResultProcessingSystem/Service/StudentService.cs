@@ -123,7 +123,8 @@ namespace StudentResultProcessingSystem.Service
         public async Task<IEnumerable<Result>> GetAllResults()
         {
             return await _context.Results
-                .Include(x => x.Student)
+                 .Include(x => x.Student)
+                 .Include(x => x.Student.Department)
                 .OrderByDescending(x => x.ResultId)
                 .ToListAsync();
         }
