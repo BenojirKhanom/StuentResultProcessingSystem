@@ -1,8 +1,347 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Home";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container-fluid">
+
+    <!-- Hero Section -->
+    <div class="p-5 mb-5 bg-primary text-white rounded-3 shadow">
+
+        <div class="row align-items-center">
+
+            <div class="col-lg-8">
+
+                <h1 class="display-4 fw-bold">
+                    Student Result Processing System
+                </h1>
+
+                <p class="lead mt-3">
+                    ASP.NET Core MVC | Entity Framework Core | SQL Server | Bootstrap
+                </p>
+
+                <p>
+                    This application provides Student Registration, Result Processing,
+                    Searching, Filtering, LINQ Reports, REST API and Authentication.
+                </p>
+
+                <a asp-controller="StudentInfo"
+                   asp-action="Index"
+                   class="btn btn-light btn-lg me-2">
+                    Student Management
+                </a>
+
+                <a asp-controller="StudentInfo"
+                   asp-action="ResultEntry"
+                   class="btn btn-warning btn-lg">
+                    Result Entry
+                </a>
+
+            </div>
+
+            <div class="col-lg-4 text-center">
+
+                <img src="https://cdn-icons-png.flaticon.com/512/3135/3135755.png"
+                     class="img-fluid"
+                     style="max-height:250px;" />
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Dashboard -->
+
+    <h2 class="text-center fw-bold mb-4">
+        Dashboard
+    </h2>
+
+    <div class="row g-4">
+
+        <!-- Student -->
+
+        <div class="col-lg-3 col-md-6">
+
+            <div class="card border-0 shadow h-100">
+
+                <div class="card-body text-center">
+
+                    <div class="display-3">
+                        👨‍🎓
+                    </div>
+
+                    <h4 class="mt-3">
+                        Student Management
+                    </h4>
+
+                    <p>
+                        Register, Update, Delete and View Students.
+                    </p>
+
+                </div>
+
+                <div class="card-footer bg-white border-0">
+
+                    <a asp-controller="StudentInfo"
+                       asp-action="Index"
+                       class="btn btn-primary w-100">
+
+                        Open Module
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Result -->
+
+        <div class="col-lg-3 col-md-6">
+
+            <div class="card border-0 shadow h-100">
+
+                <div class="card-body text-center">
+
+                    <div class="display-3">
+                        📝
+                    </div>
+
+                    <h4 class="mt-3">
+                        Result Entry
+                    </h4>
+
+                    <p>
+                        Enter Subject Wise Marks and Calculate Results.
+                    </p>
+
+                </div>
+
+                <div class="card-footer bg-white border-0">
+
+                    <a asp-controller="StudentInfo"
+                       asp-action="ResultEntry"
+                       class="btn btn-success w-100">
+
+                        Open Module
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Report -->
+
+        <div class="col-lg-3 col-md-6">
+
+            <div class="card border-0 shadow h-100">
+
+                <div class="card-body text-center">
+
+                    <div class="display-3">
+                        📊
+                    </div>
+
+                    <h4 class="mt-3">
+                        Student Report
+                    </h4>
+
+                    <p>
+                        Search, Filter and Generate LINQ Reports.
+                    </p>
+
+                </div>
+
+                <div class="card-footer bg-white border-0">
+
+                    <a asp-controller="StudentInfo"
+                       asp-action="StudentReport"
+                       class="btn btn-warning w-100">
+
+                        Open Module
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- API -->
+
+        <div class="col-lg-3 col-md-6">
+
+            <div class="card border-0 shadow h-100">
+
+                <div class="card-body text-center">
+
+                    <div class="display-3">
+                        🌐
+                    </div>
+
+                    <h4 class="mt-3">
+                        REST API
+                    </h4>
+
+                    <p>
+                        Student CRUD API using ASP.NET Core Web API.
+                    </p>
+
+                </div>
+
+                <div class="card-footer bg-white border-0">
+
+                    <button class="btn btn-dark w-100" disabled>
+
+                        API Module
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Features -->
+
+    <div class="card shadow mt-5 border-0">
+
+        <div class="card-header bg-dark text-white">
+
+            <h3 class="mb-0">
+
+                Project Features
+
+            </h3>
+
+        </div>
+
+        <div class="card-body">
+
+            <div class="row">
+
+                <div class="col-md-6">
+
+                    <ul class="list-group">
+
+                        <li class="list-group-item">
+                            ✔ Student Registration CRUD
+                        </li>
+
+                        <li class="list-group-item">
+                            ✔ Department Management
+                        </li>
+
+                        <li class="list-group-item">
+                            ✔ Subject Management
+                        </li>
+
+                        <li class="list-group-item">
+                            ✔ Result Entry
+                        </li>
+
+                        <li class="list-group-item">
+                            ✔ Subject Wise Marks
+                        </li>
+
+                        <li class="list-group-item">
+                            ✔ Total & Average Calculation
+                        </li>
+
+                    </ul>
+
+                </div>
+
+                <div class="col-md-6">
+
+                    <ul class="list-group">
+
+                        <li class="list-group-item">
+                            ✔ Grade & Pass/Fail
+                        </li>
+
+                        <li class="list-group-item">
+                            ✔ Searching & Filtering
+                        </li>
+
+                        <li class="list-group-item">
+                            ✔ LINQ Query & Method Syntax
+                        </li>
+
+                        <li class="list-group-item">
+                            ✔ REST API (GET, POST, PUT, DELETE)
+                        </li>
+
+                        <li class="list-group-item">
+                            ✔ ASP.NET Identity Authentication
+                        </li>
+
+                        <li class="list-group-item">
+                            ✔ Authorization
+                        </li>
+
+                    </ul>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Technologies -->
+
+    <div class="row mt-5 text-center">
+
+        <div class="col-md-3">
+
+            <div class="alert alert-primary">
+
+                <h5>ASP.NET Core MVC</h5>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="alert alert-success">
+
+                <h5>Entity Framework Core</h5>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="alert alert-warning">
+
+                <h5>SQL Server</h5>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="alert alert-danger">
+
+                <h5>Bootstrap 5</h5>
+
+            </div>
+
+        </div>
+
+    </div>
+
 </div>
