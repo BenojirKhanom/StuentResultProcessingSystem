@@ -1,0 +1,151 @@
+﻿using Microsoft.AspNetCore.Mvc;
+using StudentResultProcessingSystem.Data;
+using StudentResultProcessingSystem.Models;
+using StudentResultProcessingSystem.Service;
+
+namespace StudentResultProcessingSystem.Controllers
+{
+    public class StudentInfoController : Controller
+    {
+        private readonly IStudentService _studentService;
+        public StudentInfoController(IStudentService studentService)
+        {
+            _studentService = studentService;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Index(int? id)
+        {
+
+            var vm = new StudentViewModel
+            {
+                students = await _studentService.GetAllStudents(),
+                departments = await _studentService.GetDepartments()
+            };
+
+            if (id > 0)
+            {
+                var data = await _studentService.GetStudentById(id.Value);
+
+                if (data != null)
+                {
+                    vm.Id = data.StudentId;
+                    vm.StudentName = data.StudentName;
+                    vm.Roll = data.Roll;
+                    vm.Email = data.Email;
+                    vm.departmentId = data.DepartmentId;
+                }
+            }
+
+            return View(vm);
+        }
+
+
+
+
+        [HttpPost]
+
+        public async Task<IActionResult> Index(StudentViewModel vm)
+        {
+
+
+            var student = new Student
+            {
+                StudentId = vm.Id ?? 0,
+                StudentName = vm.StudentName,
+                DepartmentId = vm.departmentId,
+                Roll = vm.Roll,
+                Email = vm.Email
+            };
+
+            await _studentService.SaveStudent(student);
+
+            return RedirectToAction("Index");
+        }
+
+
+        [HttpPost]
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            var student = await _studentService.GetStudentById(id);
+
+            if (student == null)
+            {
+                return NotFound();
+            }
+
+            await _studentService.DeleteStudent(id);
+
+            return RedirectToAction("Index");
+        }
+
+
+        #region part 4
+        public async Task<IActionResult> ResultEntry()
+        {
+            ResultViewModel vm = new ResultViewModel();
+
+            vm.Students = await _studentService.GetAllStudents();
+
+            var subjects = await _studentService.GetSubjects();
+
+            foreach (var item in subjects)
+            {
+                vm.Subjects.Add(new ResultDetailViewModel
+                {
+                    SubjectId = item.SubjectId,
+                    SubjectName = item.SubjectName
+                });
+            }
+
+            return View(vm);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult>ResultEntry(ResultViewModel vm)
+        {
+            if (!ModelState.IsValid)
+            {
+                vm.Students = await _studentService.GetAllStudents();
+
+                return View(vm);
+            }
+
+            // Save Result
+
+            Result result = new Result();
+
+            result.StudentId = vm.StudentId;
+
+            result.TotalMarks = vm.TotalMarks;
+
+            result.AverageMarks = vm.AverageMarks;
+
+            result.Grade = vm.Grade;
+
+            result.Status = vm.Status;
+
+            int resultId = await _studentService.SaveResult(result);
+
+            // Save Subject Wise Marks
+
+            foreach (var item in vm.Subjects)
+            {
+                ResultDetail detail = new ResultDetail();
+
+                detail.ResultId = resultId;
+
+                detail.SubjectId = item.SubjectId;
+
+                detail.Marks = item.Marks;
+
+                await _studentService.SaveResultDetail(detail);
+            }
+
+            return RedirectToAction("ResultEntry");
+        }
+        #endregion
+
+    }
+}

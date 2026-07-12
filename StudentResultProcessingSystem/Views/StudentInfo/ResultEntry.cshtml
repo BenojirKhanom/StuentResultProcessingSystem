@@ -1,0 +1,200 @@
+﻿@model ResultViewModel
+
+<form asp-action="ResultEntry" method="post">
+
+    <div class="mb-3">
+
+        <label>Student</label>
+
+        <select asp-for="StudentId"
+                class="form-control"
+                asp-items="@(new SelectList(Model.Students,"StudentId","StudentName"))">
+
+            <option value="">Select Student</option>
+
+        </select>
+
+    </div>
+
+    <table class="table table-bordered">
+
+        <thead>
+
+            <tr>
+
+                <th>Subject</th>
+
+                <th>Marks</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            @for (int i = 0; i < Model.Subjects.Count; i++)
+            {
+                <tr>
+
+                    <td>
+
+                        @Model.Subjects[i].SubjectName
+
+                        <input type="hidden"
+                               asp-for="Subjects[i].SubjectId" />
+
+                        <input type="hidden"
+                               asp-for="Subjects[i].SubjectName" />
+
+                    </td>
+
+                    <td>
+
+                        <input asp-for="Subjects[i].Marks"
+                               class="form-control marks" />
+
+                    </td>
+
+                </tr>
+            }
+
+        </tbody>
+
+    </table>
+
+    <button type="button"
+            id="btnCalculate"
+            class="btn btn-primary">
+
+        Calculate
+
+    </button>
+
+    <hr />
+
+    <div class="row">
+
+        <div class="col-md-3">
+
+            <label>Total</label>
+
+            <input asp-for="TotalMarks"
+                   id="TotalMarks"
+                   class="form-control"
+                   readonly />
+
+        </div>
+
+        <div class="col-md-3">
+
+            <label>Average</label>
+
+            <input asp-for="AverageMarks"
+                   id="AverageMarks"
+                   class="form-control"
+                   readonly />
+
+        </div>
+
+        <div class="col-md-3">
+
+            <label>Grade</label>
+
+            <input asp-for="Grade"
+                   id="Grade"
+                   class="form-control"
+                   readonly />
+
+        </div>
+
+        <div class="col-md-3">
+
+            <label>Status</label>
+
+            <input asp-for="Status"
+                   id="Status"
+                   class="form-control"
+                   readonly />
+
+        </div>
+
+    </div>
+
+    <br />
+
+    <button class="btn btn-success">
+
+        Save
+
+    </button>
+
+</form>
+
+@section Scripts {
+
+    <script>
+
+        $("#btnCalculate").click(function(){
+
+            var total = 0;
+
+            $(".marks").each(function(){
+
+                total += parseFloat($(this).val()) || 0;
+
+            });
+
+            $("#TotalMarks").val(total);
+
+            var count = $(".marks").length;
+
+            var avg = total / count;
+
+            $("#AverageMarks").val(avg.toFixed(2));
+
+            var grade = "";
+
+            var status = "";
+
+            if(avg>=80){
+
+                grade="A+";
+                status="Pass";
+
+            }
+            else if(avg>=70){
+
+                grade="A";
+                status="Pass";
+
+            }
+            else if(avg>=60){
+
+                grade="A-";
+                status="Pass";
+
+            }
+            else if(avg>=50){
+
+                grade="B";
+                status="Pass";
+
+            }
+            else{
+
+                grade="F";
+                status="Fail";
+
+            }
+
+            $("#Grade").val(grade);
+
+            $("#Status").val(status);
+
+        });
+
+    </script>
+
+}
+
+
