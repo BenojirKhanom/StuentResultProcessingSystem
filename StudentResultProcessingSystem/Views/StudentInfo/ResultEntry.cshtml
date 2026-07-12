@@ -50,9 +50,11 @@
 
                     <td>
 
+                        
                         <input asp-for="Subjects[i].Marks"
-                               class="form-control marks" />
-
+                               class="form-control marks"
+                               min="0"
+                               max="100" />
                     </td>
 
                 </tr>
@@ -129,10 +131,116 @@
     </button>
 
 </form>
+<hr />
+
+<h4>Result List</h4>
+
+<table class="table table-bordered">
+
+    <thead>
+        <tr>
+
+            <th>Student</th>
+            <th>Total</th>
+            <th>Average</th>
+            <th>Grade</th>
+            <th>Status</th>
+            <th></th>
+
+        </tr>
+    </thead>
+
+    <tbody>
+
+        @foreach (var item in Model.ResultList)
+        {
+            <tr>
+
+                <td>@item.Student.StudentName</td>
+
+                <td>@item.TotalMarks</td>
+
+                <td>@item.AverageMarks</td>
+
+                <td>@item.Grade</td>
+
+                <td>@item.Status</td>
+
+                <td>
+
+                    <button type="button"
+                            class="btn btn-primary btnView"
+                            data-id="@item.ResultId">
+
+                        View
+
+                    </button>
+
+                </td>
+
+            </tr>
+        }
+
+    </tbody>
+
+</table>
+
+<div class="modal fade"
+     id="detailsModal"
+     tabindex="-1">
+
+    <div class="modal-dialog">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <h5>
+
+                    Subject Wise Marks
+
+                </h5>
+
+                <button class="btn-close"
+                        data-bs-dismiss="modal">
+                </button>
+
+            </div>
+
+            <div class="modal-body">
+
+                <div id="detailsBody">
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
 
 @section Scripts {
 
     <script>
+
+                $(document).on("keyup change", ".marks", function () {
+
+            var mark = parseFloat($(this).val());
+
+            if (mark > 100) {
+                alert("Marks cannot be greater than 100.");
+                $(this).val("");
+                $(this).focus();
+            }
+
+            if (mark < 0) {
+                alert("Marks cannot be less than 0.");
+                $(this).val("");
+                $(this).focus();
+            }
+
+        });
 
         $("#btnCalculate").click(function(){
 
@@ -190,6 +298,46 @@
             $("#Grade").val(grade);
 
             $("#Status").val(status);
+
+        });
+
+         $(".btnView").click(function(){
+
+            var id=$(this).data("id");
+
+            $.get('/StudentInfo/GetResultDetails/'+id,function(res){
+
+                var html="";
+
+                html+="<table class='table table-bordered'>";
+
+                html+="<tr>";
+
+                html+="<th>Subject</th>";
+
+                html+="<th>Marks</th>";
+
+                html+="</tr>";
+
+                $.each(res,function(i,item){
+
+                    html+="<tr>";
+
+                    html+="<td>"+item.subject.subjectName+"</td>";
+
+                    html+="<td>"+item.marks+"</td>";
+
+                    html+="</tr>";
+
+                });
+
+                html+="</table>";
+
+                $("#detailsBody").html(html);
+
+                $("#detailsModal").modal('show');
+
+            });
 
         });
 

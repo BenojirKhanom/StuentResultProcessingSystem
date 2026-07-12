@@ -53,7 +53,7 @@ namespace StudentResultProcessingSystem.Controllers
             {
                 StudentId = vm.Id ?? 0,
                 StudentName = vm.StudentName,
-                DepartmentId = vm.departmentId,
+                DepartmentId = (int)vm.departmentId,
                 Roll = vm.Roll,
                 Email = vm.Email
             };
@@ -87,7 +87,7 @@ namespace StudentResultProcessingSystem.Controllers
             ResultViewModel vm = new ResultViewModel();
 
             vm.Students = await _studentService.GetAllStudents();
-
+            vm.ResultList = await _studentService.GetAllResults();
             var subjects = await _studentService.GetSubjects();
 
             foreach (var item in subjects)
@@ -108,7 +108,7 @@ namespace StudentResultProcessingSystem.Controllers
             if (!ModelState.IsValid)
             {
                 vm.Students = await _studentService.GetAllStudents();
-
+                vm.ResultList = await _studentService.GetAllResults();
                 return View(vm);
             }
 
@@ -144,6 +144,14 @@ namespace StudentResultProcessingSystem.Controllers
             }
 
             return RedirectToAction("ResultEntry");
+        }
+        //API
+        [HttpGet]
+        public async Task<IActionResult> GetResultDetails(int id)
+        {
+            var data = await _studentService.GetResultDetails(id);
+
+            return Json(data);
         }
         #endregion
 

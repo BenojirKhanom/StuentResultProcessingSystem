@@ -65,10 +65,8 @@ namespace StudentResultProcessingSystem.Service
         #endregion
 
         #region Result
-        public async Task<IEnumerable<Result>> GetAllResults()
-        {
-            return await _context.Results.ToListAsync();
-        }
+
+        
 
         public async Task<Result?> GetResultById(int id)
         {
@@ -91,7 +89,7 @@ namespace StudentResultProcessingSystem.Service
                 _context.Results.Add(Result);
             }
             await _context.SaveChangesAsync();
-            return 1;
+            return Result.ResultId;
         }
 
         public async Task<int> DeleteResult(int id)
@@ -103,12 +101,15 @@ namespace StudentResultProcessingSystem.Service
             }
             _context.Results.Remove(Result);
             await _context.SaveChangesAsync();
-            return 1;
+            return id;
         }
-
+        //sql query
         public async Task<IEnumerable<Subject>> GetSubjects()
         {
-            return await _context.Subjects.ToListAsync();
+           // return await _context.Subjects.ToListAsync();
+            return await _context.Subjects
+               .FromSqlRaw("SELECT * FROM Subjects")
+               .ToListAsync();
         }
 
         public async Task<int> SaveResultDetail(ResultDetail model)
@@ -117,8 +118,25 @@ namespace StudentResultProcessingSystem.Service
 
             await _context.SaveChangesAsync();
 
-            return 1;
+            return model.ResultDetailId;
         }
+        public async Task<IEnumerable<Result>> GetAllResults()
+        {
+            return await _context.Results
+                .Include(x => x.Student)
+                .OrderByDescending(x => x.ResultId)
+                .ToListAsync();
+        }
+
+        public async Task<List<ResultDetail>> GetResultDetails(int resultId)
+        {
+            return await _context.ResultDetails
+                .Include(x => x.Subject)
+                .Where(x => x.ResultId == resultId)
+                .ToListAsync();
+        }
+
+       
         #endregion
 
         #region Department

@@ -24,7 +24,7 @@ namespace StudentResultProcessingSystem.Models
         public IEnumerable<Student>? Students { get; set; }
 
         public List<ResultDetailViewModel> Subjects { get; set; } = new();
-
+        public IEnumerable<Result> ResultList { get; set; } = new List<Result>();
         // Calculated Result
 
         public decimal TotalMarks { get; set; }

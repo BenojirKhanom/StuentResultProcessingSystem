@@ -13,7 +13,7 @@ namespace StudentResultProcessingSystem.Service
         #endregion
 
         #region Result
-        Task<IEnumerable<Result>> GetAllResults();
+        
         Task<Result?> GetResultById(int id);
         Task<int> SaveResult(Result Result);
         Task<int> DeleteResult(int id);
@@ -23,7 +23,8 @@ namespace StudentResultProcessingSystem.Service
         Task<IEnumerable<Subject>> GetSubjects();
         // Result Detail
         Task<int> SaveResultDetail(ResultDetail model);
-
+        Task<IEnumerable<Result>> GetAllResults();
+        Task<List<ResultDetail>> GetResultDetails(int resultId);
 
         #endregion
         #region Department
