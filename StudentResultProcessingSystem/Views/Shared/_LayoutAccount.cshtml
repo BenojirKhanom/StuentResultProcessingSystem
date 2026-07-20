@@ -19,42 +19,28 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                       @*  <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li> *@
-                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="StudentInfo" asp-action="Index">Student Create</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="StudentInfo" asp-action="ResultEntry">Result Entry</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="StudentInfo" asp-action="StudentReport">Student Report</a>
-                        </li> 
-                    </ul>
+                   
                 </div>
                 <div>
                     @if (User.Identity.IsAuthenticated)
                     {
                         <a asp-controller="Account"
-                           asp-action="Logout"
-                           class="btn btn-danger">
+                           asp-action="Register"
+                           class="btn btn-success">
 
-                            Logout
+                            Register
 
                         </a>
                     }
                     else
                     {
-                        <a asp-controller="Account"
-                           asp-action="Login"
-                           class="btn btn-success">
+                        
 
-                            Login
+                        <a asp-controller="Account"
+                           asp-action="Logout"
+                           class="btn btn-danger">
+
+                            Logout
 
                         </a>
                     }

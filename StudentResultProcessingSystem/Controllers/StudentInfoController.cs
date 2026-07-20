@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using StudentResultProcessingSystem.Data;
 using StudentResultProcessingSystem.Models;
 using StudentResultProcessingSystem.Service;
 
 namespace StudentResultProcessingSystem.Controllers
 {
+    [Authorize]
     public class StudentInfoController : Controller
     {
         private readonly IStudentService _studentService;

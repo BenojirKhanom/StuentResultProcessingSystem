@@ -1,4 +1,5 @@
 ﻿using StudentResultProcessingSystem.Data;
+using System.ComponentModel.DataAnnotations;
 
 namespace StudentResultProcessingSystem.Models
 {
@@ -58,5 +59,32 @@ namespace StudentResultProcessingSystem.Models
 
         // Result List
         public IEnumerable<Result>? Results { get; set; } = new List<Result>();
+    }
+
+    public class LoginViewModel
+    {
+        [Required(ErrorMessage = "Email is required")]
+        [EmailAddress]
+        public string? Email { get; set; }
+
+        [Required(ErrorMessage = "Password is required")]
+        [DataType(DataType.Password)]
+        public string? Password { get; set; }
+    }
+
+    public class RegisterViewModel
+    {
+        [Required(ErrorMessage = "Email is required")]
+        [EmailAddress]
+        public string? Email { get; set; }
+
+        [Required(ErrorMessage = "Password is required")]
+        [DataType(DataType.Password)]
+        public string? Password { get; set; }
+
+        [Required(ErrorMessage = "Confirm Password is required")]
+        [DataType(DataType.Password)]
+        [Compare("Password", ErrorMessage = "Password and Confirm Password do not match")]
+        public string? ConfirmPassword { get; set; }
     }
 }
