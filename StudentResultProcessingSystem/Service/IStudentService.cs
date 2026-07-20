@@ -29,6 +29,9 @@ namespace StudentResultProcessingSystem.Service
         #endregion
         #region Department
         Task<IEnumerable<Department>> GetDepartments();
+        Task<Department> GetDepartmentById(int id);
+        Task<int> SaveDepartment(Department department);
+        Task<int> DeleteDepartment(int id);
         #endregion
     }
 }

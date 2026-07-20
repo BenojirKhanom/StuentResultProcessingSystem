@@ -60,7 +60,7 @@ namespace StudentResultProcessingSystem.Service
             }
             _context.Students.Remove(Student);
             await _context.SaveChangesAsync();
-            return 1;
+            return Student.StudentId;
         }
         #endregion
 
@@ -146,7 +146,50 @@ namespace StudentResultProcessingSystem.Service
             var data = await _context.Departments.ToListAsync();
             return data;
         }
-        
+
+        public async Task<Department> GetDepartmentById(int id)
+        {
+            return await _context.Departments.FindAsync(id);
+        }
+
+        public async Task<int> SaveDepartment(Department department)
+        {
+            try
+            {
+                if (department == null)
+                {
+                    throw new ArgumentNullException(nameof(department));
+                }
+                if (department.DepartmentId > 0)
+                {
+                    _context.Update(department);
+                }
+                else
+                {
+                    _context.Departments.Add(department);
+                }
+                await _context.SaveChangesAsync();
+                return 1;
+            }
+            catch (Exception)
+            {
+
+                return department.DepartmentId;
+            }
+        }
+
+        public async Task<int> DeleteDepartment(int id)
+        {
+            var data = await _context.Departments.FindAsync(id);
+            if (data == null)
+            {
+                throw new ArgumentException($"Departments id {id} not found.");
+            }
+            _context.Departments.Remove(data);
+            await _context.SaveChangesAsync();
+            return data.DepartmentId;
+        }
+
         #endregion
     }
 }
