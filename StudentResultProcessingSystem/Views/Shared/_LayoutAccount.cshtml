@@ -22,28 +22,13 @@
                    
                 </div>
                 <div>
-                    @if (User.Identity.IsAuthenticated)
-                    {
-                        <a asp-controller="Account"
-                           asp-action="Register"
-                           class="btn btn-success">
+                    <a asp-controller="Account"
+                       asp-action="Register"
+                       class="btn btn-success">
 
-                            Register
+                        Register
 
-                        </a>
-                    }
-                    else
-                    {
-                        
-
-                        <a asp-controller="Account"
-                           asp-action="Logout"
-                           class="btn btn-danger">
-
-                            Logout
-
-                        </a>
-                    }
+                    </a>
                 </div>
                 
             </div>
